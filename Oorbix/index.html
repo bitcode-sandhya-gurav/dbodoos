@@ -202,7 +202,7 @@
                   <option value="" disabled selected>Select company</option>
                   <option value="1">Biitcode</option>
                   <option value="2">AMG</option>
-                  <option value="3">demo</option>
+                  <option value="3">Demo</option>
                   <!-- <option value="4">Company 3</option> -->
 
               </select>
@@ -1512,11 +1512,12 @@
   $('#idForm').on('submit', function(e) {
     e.preventDefault();
     const userId = $.trim($('#userId').val());
+    console.log("User ID entered:", userId);
     if (userId==1) {
       window.location.href = "https://biitcode.oorbix.com/";
     }else if (userId==2) {
       window.location.href = "https://amg.oorbix.com/";
-    }else if(userId=3){
+    }else if(userId==3){
       window.location.href = "https://demo.oorbix.com/";
     }else{
       window.location.href = "https://oorbix.com/";
