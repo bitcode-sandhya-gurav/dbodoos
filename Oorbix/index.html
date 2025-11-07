@@ -194,26 +194,25 @@
           <!-- Step 1: Enter ID -->
           <div class="form-step active" id="stepForm1">
             <p class="login_card_heading"><i class="bi bi-pie-chart-fill me-2"></i>Access Your Dashboard</p>
-            <form id="idForm">
+            <form id="idForm" class="needs-validation" novalidate>
               <div class="mb-4">
                 <label for="userId" class="form-label">Company Name</label>
-                <!-- <input type="text" class="form-control" id="userId" placeholder="company" required> -->
-              <select class="form-control" id="userId" required>
-                  <option value="" disabled selected>Select company</option>
-                  <option value="1">Biitcode</option>
-                  <option value="2">AMG</option>
-                  <option value="3">Demo</option>
-                  <!-- <option value="4">Company 3</option> -->
+                <input type="text" class="form-control" id="userId" placeholder="company" required>
+            
 
-              </select>
-
-                <div class="form-text">Select your company name </div>
+                <div id="companyError" class="text-danger mt-1 invalid-feedback" style="display: none;">
+                  <!-- Error will show here -->
+                </div>
+                <!-- <div class="form-text">Enter your company name</div> -->
+                
               </div>
               <button type="submit" class="btn btn-primary">
                 <i class="bi bi-arrow-right-circle me-2"></i>Go to Portal
               </button>
             </form>
           </div>
+
+
 
           <!-- Step 2: Login Form -->
           <div class="form-step" id="stepForm2">
@@ -1493,6 +1492,32 @@
 
 <script>
 
+
+ 
+  
+    function isvalidCompany() {
+    
+    const userId = document.getElementById("userId").value.trim();
+    const errorDiv = document.getElementById("companyError");
+    const regex = /^[a-zA-Z0-9\s]{2,50}$/; // allow letters, numbers, spaces (2–50 chars)
+
+    if (userId === "") {
+      errorDiv.textContent = "Company name is required.";
+      errorDiv.style.display = "block";
+      return false;
+    } else if (!regex.test(userId)) {
+      errorDiv.textContent =
+        "Enter a valid company name (letters, numbers, spaces only).";
+      errorDiv.style.display = "block";
+      return false;
+    } else {
+      errorDiv.style.display = "none"; 
+      return true;
+    }
+  };
+ 
+
+
 // Check for remembered credentials on page load
   $(window).on('load', function() {
     const rememberedUserId = localStorage.getItem('rememberedUserId');
@@ -1511,18 +1536,25 @@
 // Step 1: Handle ID form submission
   $('#idForm').on('submit', function(e) {
     e.preventDefault();
-    const userId = $.trim($('#userId').val());
-    console.log("User ID entered:", userId);
-    if (userId==1) {
-      window.location.href = "https://biitcode.oorbix.com/";
-    }else if (userId==2) {
-      window.location.href = "https://amg.oorbix.com/";
-    }else if(userId==3){
-      window.location.href = "https://demo.oorbix.com/";
+    const userstr = $.trim($('#userId').val());
+    const isvaliduser = isvalidCompany();
+    console.log("Is valid user:", isvaliduser); 
+    if(isvaliduser==false){
+      return;
     }else{
-      window.location.href = "https://oorbix.com/";
+      const userId = userstr!= null && userstr!="" ? userstr.toLowerCase() : null;
+      console.log("User ID entered:", userId);
+      if (userId=="biitcode") {
+        window.location.href = "https://biitcode.oorbix.com/";
+      }else if (userId=="amg"){ 
+        window.location.href = "https://amg.oorbix.com/";
+      }else if(userId=="demo"){
+        window.location.href = "https://demo.oorbix.com/";
+      }else{
+        alert("Invalid Company Name.");
+        window.location.href = "https://oorbix.com/";
+      }
     }
-
     // if (userId) {
     //     // Update step indicators
     //   $('#step1').removeClass('active').addClass('completed');
